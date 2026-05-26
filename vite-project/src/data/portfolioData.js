@@ -4,10 +4,10 @@
 export const personalInfo = {
   name: "Rajesh Patankar",
   tagline: "I build fast, secure, full-stack web apps.",
-  email: "rajesh.patankar@example.com",        // ← replace with your email
-  linkedin: "https://www.linkedin.com/in/rajeshpatankar-dev/", 
+  email: "rajeshpatankar24@gmail.com",       
+  linkedin: "https://www.linkedin.com/in/rajeshpatankar-y2024/", 
   github: "https://github.com/rajeshpatankar24",          
-  githubUsername: "rajeshpatankar24",                    
+  githubUsername: "rajeshpatankar24 ",                    
   resumeUrl: "/resume.pdf",
   location: "Indore, India",
   bio: "MCA graduate from RGPV, Bhopal. 1+ year building MERN stack applications that solve real-world problems. Cleared TCS NQT 2025. I love building things that actually make a difference — clean code, great UX, and solid architecture.",
@@ -62,55 +62,99 @@ export const projects = [
     category: "Web App",
     description: "A full-stack MERN application for managing government tenders — track submissions, deadlines, statuses, and vendor information in one place.",
     problem: "Government departments spent hours managing tender paperwork manually. This app streamlined the entire process into a single dashboard.",
+    longDescription: "A robust MERN stack application tailored for government departments and certified vendors. It replaces manual paperwork with a secure, digital pipeline. Admins can announce tenders, set deadlines, and assess bids, while vendors can register, check eligibility, search for opportunities, and securely submit bidding documents. Built with full data validation and robust audit logging.",
+    features: [
+      "Admin dashboard to create, update, and manage government tenders.",
+      "Vendor bidding system with deadline enforcement and automated status updates.",
+      "Secure authentication and authorization using JWT with role-based access control (Admin vs. Vendor).",
+      "Comprehensive filtering and search tools for matching categories, values, and departments."
+    ],
+    challenges: "Optimizing database queries for high-concurrency vendor bidding and enforcing absolute security/validation on tender bids via Express middleware.",
     image: "/tender_app.png",
     tech: ["React.js", "Node.js", "MongoDB", "Express.js", "JWT", "Tailwind CSS"],
-    live: "#",        // ← replace with your live URL
-    github: "#",      // ← replace with your GitHub repo
+    live: "https://tender-management-mu.vercel.app",
+    github: "https://github.com/rajeshpatankar24/tender_management",
     featured: true,
   },
   {
     id: 2,
-    title: "TechSolve Website",
+    title: "Glacial Engineers",
     category: "Website",
-    description: "Professional company website for TechSolve — an IT solutions firm. Responsive, fast, and designed to convert visitors into leads.",
-    problem: "The company had no online presence. Built a modern site that showcases services, generates leads via contact form, and ranks on Google.",
-    image: "/techsolve.png",
-    tech: ["React.js", "CSS3", "EmailJS", "Framer Motion"],
-    live: "#",        // ← replace
-    github: "#",      // ← replace
-    featured: false,
+    description: "A premium corporate website for Glacial Engineers — HVAC and air conditioning experts. Features service explorer and modern lead generation system.",
+    problem: "The firm needed a fast, high-conversion online presence to represent their commercial & industrial ventilation services and capture consultation leads.",
+    longDescription: "A modern business website tailored for Glacial Engineers. It visually aligns with their premium HVAC & air conditioning branding, showcasing services across residential, commercial, and industrial clients. It features interactive service exploration sections, optimized lead acquisition flows, and smooth animations.",
+    features: [
+      "Air conditioning and ventilation service showcases with custom categorized tabs.",
+      "Modern call-to-actions (CTAs) including 'Book A Service' and dynamic consultation inquiries.",
+      "Highly responsive fluid layout built with Tailwind CSS for perfect rendering on mobile/desktop.",
+      "SEO best practices implementing semantic markup for high localized visibility."
+    ],
+    challenges: "Crafting a clean, engineered aesthetic utilizing premium color harmony (matching their cold glacial tones) and ensuring extremely fast load speeds through asset optimization.",
+    image: "/glacial_engineers.png",
+    tech: ["React.js", "Tailwind CSS", "Framer Motion", "Vite"],
+    live: "https://glacial-three.vercel.app",
+    github: "https://github.com/rajeshpatankar24",
+    featured: true,
   },
   {
     id: 3,
-    title: "Expense Tracker",
+    title: "Chatty",
     category: "Web App",
-    description: "A personal finance tracker with category breakdowns, monthly graphs, and budget alerts — helping users stay on top of their spending.",
-    problem: "People lose track of daily expenses. This app gives visual insights into spending patterns with an intuitive, mobile-friendly interface.",
-    image: "/expense_tracker.png",
-    tech: ["React.js", "Node.js", "MongoDB", "Chart.js", "Express.js"],
-    live: "#",        // ← replace
-    github: "#",      // ← replace
-    featured: false,
+    description: "A real-time instant messaging application featuring secure email authentication, real-time message broadcasting, and customizable user settings.",
+    problem: "Standard web communications lack a combination of secure credentials handling and low-latency websocket message broadcasting.",
+    longDescription: "A modern real-time messaging application. Built on the MERN stack and WebSockets, it features a rich welcome and onboarding system, secure sign-in, responsive grid visual panels, and robust, secure instant message sync across sessions.",
+    features: [
+      "Secure JWT-based email/password authentication and onboarding workflows.",
+      "Real-time low-latency instant messaging architecture utilizing Socket.io.",
+      "Custom profile setup options and interactive status settings.",
+      "Highly reactive state-driven user interfaces with clean responsive dashboards."
+    ],
+    challenges: "Synchronizing active user sessions and validating real-time database inputs under high concurrency.",
+    image: "/chatty.png",
+    tech: ["React.js", "Node.js", "Express.js", "MongoDB", "Socket.io", "Tailwind CSS"],
+    live: "https://chat-app-sage-beta.vercel.app/",
+    github: "https://github.com/rajeshpatankar24/chat_app",
+    featured: true,
   },
+  // {
+  //   id: 4,
+  //   title: "Smart Expense Tracker",
+  //   category: "Web App",
+  //   description: "A personal finance tracker with category breakdowns, monthly graphs, and budget alerts — helping users stay on top of their spending.",
+  //   problem: "People lose track of daily expenses. This app gives visual insights into spending patterns with an intuitive, mobile-friendly interface.",
+  //   longDescription: "A sleek personal finance manager that empowers users to take control of their spending. Built with the MERN stack, the application processes expense logs in real-time, updates analytical dashboards instantly, and renders category-based budget limits. It includes comprehensive history filters, enabling users to export or view historical trends over multiple months.",
+  //   features: [
+  //     "Visual spending charts and monthly category breakdowns utilizing Chart.js integrations.",
+  //     "Budget threshold alerts that trigger visual warnings when category limits are approached.",
+  //     "Dynamic filtering of historical transactions by date ranges, categories, and payment methods.",
+  //     "Responsive design optimized for quick expense entries on the go."
+  //   ],
+  //   challenges: "Handling date/time serialization consistently across MongoDB aggregations and rendering smooth, responsive charts on mobile dimensions.",
+  //   image: "/expense_tracker.png",
+  //   tech: ["React.js", "Node.js", "MongoDB", "Chart.js", "Express.js"],
+  //   live: "https://github.com/rajeshpatankar24",
+  //   github: "https://github.com/rajeshpatankar24",
+  //   featured: false,
+  // },
 ];
 
 export const experiences = [
   {
-    company: "Ypsilon IT Solution",
-    role: "Full Stack Developer Intern",
-    duration: "Jan 2024 – Jun 2024",
-    location: "Remote",
-    color: "#8b5cf6",
+    company: "EduProHub",
+    role: "Web Developer Intern",
+    duration: "Feb 2026 – Apr 2026",
+    location: "On-site, Indore",
+    color: "#c084fc",
     points: [
-      "Built RESTful APIs using Node.js & Express, reducing response time by 30% through query optimization.",
-      "Developed React.js dashboards with real-time data updates and role-based access control.",
-      "Integrated MongoDB for scalable data storage and implemented JWT-based authentication.",
+      "Built and maintained company website pages using HTML, CSS, and JavaScript.",
+      "Created interactive UI components improving user engagement by 25%.",
+      "Assisted in migrating legacy pages to a modern React.js architecture.",
     ],
   },
   {
     company: "Anantixia LLP",
     role: "MERN Stack Developer Intern",
-    duration: "Jul 2023 – Dec 2023",
+    duration: "Nov 2025 – Jan 2026",
     location: "Remote",
     color: "#a78bfa",
     points: [
@@ -120,17 +164,19 @@ export const experiences = [
     ],
   },
   {
-    company: "EduProHub",
-    role: "Web Developer Intern",
-    duration: "Jan 2023 – Jun 2023",
+    company: "Ypsilon IT Solution",
+    role: "Full Stack Developer Intern",
+    duration: "Nov 2024 – May 2025",
     location: "Remote",
-    color: "#c084fc",
+    color: "#8b5cf6",
     points: [
-      "Built and maintained company website pages using HTML, CSS, and JavaScript.",
-      "Created interactive UI components improving user engagement by 25%.",
-      "Assisted in migrating legacy pages to a modern React.js architecture.",
+      "Built RESTful APIs using Node.js & Express, reducing response time by 30% through query optimization.",
+      "Developed React.js dashboards with real-time data updates and role-based access control.",
+      "Integrated MongoDB for scalable data storage and implemented JWT-based authentication.",
     ],
   },
+  
+  
 ];
 
 export const education = [
@@ -159,21 +205,21 @@ export const achievements = [
   },
 ];
 
-export const testimonials = [
-  {
-    name: "Manager Name",
-    role: "Tech Lead",
-    company: "Ypsilon IT Solution",
-    avatar: "YP",
-    quote: "Rajesh is a dedicated developer who consistently delivered clean, well-structured code. His understanding of the MERN stack is impressive for someone with his experience level.",
-    stars: 5,
-  },
-  {
-    name: "Manager Name",
-    role: "Project Manager",
-    company: "Anantixia LLP",
-    avatar: "AN",
-    quote: "Working with Rajesh was a pleasure. He took ownership of the Tender Management App from day one and delivered it ahead of schedule with excellent documentation.",
-    stars: 5,
-  },
-];
+// export const testimonials = [
+//   {
+//     name: "Manager Name",
+//     role: "Tech Lead",
+//     company: "Ypsilon IT Solution",
+//     avatar: "YP",
+//     quote: "Rajesh is a dedicated developer who consistently delivered clean, well-structured code. His understanding of the MERN stack is impressive for someone with his experience level.",
+//     stars: 5,
+//   },
+//   {
+//     name: "Manager Name",
+//     role: "Project Manager",
+//     company: "Anantixia LLP",
+//     avatar: "AN",
+//     quote: "Working with Rajesh was a pleasure. He took ownership of the Tender Management App from day one and delivered it ahead of schedule with excellent documentation.",
+//     stars: 5,
+//   },
+// ];
