@@ -45,7 +45,7 @@ export default function Navbar() {
       background: scrolled ? 'var(--bg-primary)' : 'transparent',
       borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
       transition: 'all 0.3s ease',
-    }}>
+    }} className={scrolled ? 'navbar-scrolled' : 'navbar-transparent'}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
         {/* Logo */}
         <button
@@ -53,7 +53,7 @@ export default function Navbar() {
           style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
         >
           {/* <span style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-accent)', letterSpacing: '-0.02em' }}>RP</span> */}
-          <span style={{ color: 'var(--text-muted)', fontSize: '0.88rem', fontWeight: 500 }}>Portfolio</span>
+          <span className="logo-text" style={{ color: 'var(--text-muted)', fontSize: '0.88rem', fontWeight: 500 }}>Portfolio</span>
         </button>
 
         {/* Desktop Nav */}
@@ -69,6 +69,7 @@ export default function Navbar() {
 
           {/* Theme toggle */}
           <button onClick={toggleTheme}
+            className="theme-toggle"
             title={isDark ? 'Light mode' : 'Dark mode'}
             style={{
               width: '36px', height: '36px', borderRadius: '8px',
@@ -92,10 +93,12 @@ export default function Navbar() {
         {/* Mobile controls */}
         <div className="mobile-controls" style={{ display: 'none', alignItems: 'center', gap: '0.5rem' }}>
           <button onClick={toggleTheme}
+            className="theme-toggle"
             style={{ width: '34px', height: '34px', borderRadius: '7px', background: 'var(--bg-card)', border: '1px solid var(--border-light)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
             {isDark ? <FiSun size={14} /> : <FiMoon size={14} />}
           </button>
           <button onClick={() => setMenuOpen(!menuOpen)}
+            className="menu-btn"
             style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)', display: 'flex', alignItems: 'center' }}
             aria-label="Toggle menu">
             {menuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
@@ -126,6 +129,26 @@ export default function Navbar() {
       )}
 
       <style>{`
+        /* Transparent state overrides for light theme on dark background images */
+        [data-theme="light"] .navbar-transparent .nav-link {
+          color: rgba(255, 255, 255, 0.8) !important;
+        }
+        [data-theme="light"] .navbar-transparent .nav-link:hover,
+        [data-theme="light"] .navbar-transparent .nav-link.active {
+          color: #ffffff !important;
+        }
+        [data-theme="light"] .navbar-transparent .logo-text {
+          color: rgba(255, 255, 255, 0.8) !important;
+        }
+        [data-theme="light"] .navbar-transparent .theme-toggle {
+          background: rgba(255, 255, 255, 0.08) !important;
+          border-color: rgba(255, 255, 255, 0.25) !important;
+          color: #ffffff !important;
+        }
+        [data-theme="light"] .navbar-transparent .menu-btn {
+          color: #ffffff !important;
+        }
+
         @media (max-width: 768px) {
           .desktop-nav { display: none !important; }
           .mobile-controls { display: flex !important; }

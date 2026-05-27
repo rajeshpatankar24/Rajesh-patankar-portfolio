@@ -24,41 +24,92 @@ export default function About() {
             viewport={{ once: true }} transition={{ duration: 0.7 }}
             style={{ display: 'flex', justifyContent: 'center' }}
           >
-            <div style={{ position: 'relative', display: 'inline-block' }}>
-              {/* Spinning border ring */}
+            <div style={{ position: 'relative', display: 'inline-block' }} className="about-profile-container">
+              {/* Pulsing Backing Neon Radial Glow */}
               <div style={{
-                position: 'absolute', inset: '-3px', borderRadius: '50%',
-                border: '2px solid var(--accent)',
-                animation: 'rotateSlow 12s linear infinite',
-                borderStyle: 'dashed',
+                position: 'absolute',
+                inset: '-20px',
+                borderRadius: '32px',
+                background: 'radial-gradient(circle, rgba(96, 165, 250, 0.22) 0%, transparent 70%)',
+                animation: 'pulseGlow 4s ease-in-out infinite',
+                pointerEvents: 'none',
+                zIndex: 0,
               }} />
+
+              {/* High-tech rotating solid double ring with glowing shadows */}
+              <div 
+                className="about-profile-ring-1"
+                style={{
+                  position: 'absolute',
+                  inset: '-8px',
+                  borderRadius: '32px',
+                  border: '1.5px solid rgba(96, 165, 250, 0.45)',
+                  boxShadow: '0 0 15px rgba(96, 165, 250, 0.35)',
+                  pointerEvents: 'none',
+                  zIndex: 0,
+                }} 
+              />
+              <div 
+                className="about-profile-ring-2"
+                style={{
+                  position: 'absolute',
+                  inset: '-14px',
+                  borderRadius: '38px',
+                  border: '1px solid rgba(96, 165, 250, 0.25)',
+                  boxShadow: '0 0 10px rgba(96, 165, 250, 0.2)',
+                  pointerEvents: 'none',
+                  zIndex: 0,
+                }} 
+              />
+
+              {/* Profile image container frame (Modern Squircle shape) */}
               <div style={{
-                width: '230px', height: '230px', borderRadius: '50%',
-                background: 'var(--bg-card)',
-                border: '3px solid var(--bg-secondary)',
+                width: '230px', height: '230px', 
+                borderRadius: '28px',
+                background: 'rgba(22, 22, 31, 0.65)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+                border: '3px solid rgba(96, 165, 250, 0.35)',
                 overflow: 'hidden',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                position: 'relative', zIndex: 1,
-              }}>
+                position: 'relative', 
+                zIndex: 1,
+                boxShadow: '0 12px 36px rgba(0, 0, 0, 0.25), 0 0 20px rgba(96, 165, 250, 0.15)',
+                transition: 'all 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
+              }}
+              className="about-profile-frame"
+              >
                 <img
                   src="/rajesh_profile.jpg" alt="Rajesh Patankar"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                  style={{ 
+                    width: '100%', 
+                    height: '100%', 
+                    objectFit: 'cover',
+                    transition: 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)',
+                  }}
+                  className="about-profile-img"
                   onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
                 />
                 <div style={{ display: 'none', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
-                  <span style={{ fontSize: '3.5rem', fontWeight: 800, color: 'var(--text-accent)' }}>RP</span>
-                  {/* <span style={{ fontSize: '0.65rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>Drop photo in /public</span> */}
+                  <span style={{ fontSize: '3.5rem', fontWeight: 800, color: '#60a5fa' }}>RP</span>
                 </div>
               </div>
-              {/* Exp badge */}
+
+              {/* Exp badge - High Tech matching badge */}
               <div style={{
-                position: 'absolute', bottom: '8px', right: '-18px',
-                background: 'var(--btn-primary-bg)',
-                borderRadius: '10px', padding: '0.45rem 0.7rem', zIndex: 2,
-                border: '1px solid var(--border-light)',
+                position: 'absolute', bottom: '-8px', right: '-18px',
+                background: 'rgba(22, 22, 31, 0.9)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                border: '1.5px solid rgba(96, 165, 250, 0.4)',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3), 0 0 10px rgba(96, 165, 250, 0.15)',
+                borderRadius: '12px', 
+                padding: '0.5rem 0.8rem', 
+                zIndex: 2,
+                textAlign: 'center',
               }}>
-                <p style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--btn-primary-text)', textAlign: 'center', lineHeight: 1 }}>1+</p>
-                <p style={{ fontSize: '0.58rem', color: 'var(--btn-primary-text)', opacity: 0.85, textAlign: 'center' }}>Year Exp.</p>
+                <p style={{ fontSize: '1.1rem', fontWeight: 800, color: '#60a5fa', textAlign: 'center', lineHeight: 1, marginBottom: '0.1rem' }}>1+</p>
+                <p style={{ fontSize: '0.58rem', color: '#cbd5e1', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', textAlign: 'center' }}>Year Exp.</p>
               </div>
             </div>
           </motion.div>
@@ -118,6 +169,36 @@ export default function About() {
           </motion.div>
         </div>
       </div>
+      <style>{`
+        .about-profile-ring-1 {
+          animation: rotateSlow 20s linear infinite;
+          transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1) !important;
+        }
+        .about-profile-ring-2 {
+          animation: rotateSlow 35s linear reverse infinite;
+          transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1) !important;
+        }
+
+        .about-profile-container:hover .about-profile-ring-1 {
+          animation-duration: 4s !important;
+          border-color: rgba(96, 165, 250, 0.7) !important;
+          box-shadow: 0 0 25px rgba(96, 165, 250, 0.5) !important;
+        }
+        .about-profile-container:hover .about-profile-ring-2 {
+          animation-duration: 6s !important;
+          border-color: rgba(96, 165, 250, 0.4) !important;
+          box-shadow: 0 0 15px rgba(96, 165, 250, 0.3) !important;
+        }
+
+        .about-profile-frame:hover {
+          border-color: rgba(96, 165, 250, 0.65) !important;
+          box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(96, 165, 250, 0.3) !important;
+          transform: translateY(-4px);
+        }
+        .about-profile-frame:hover .about-profile-img {
+          transform: scale(1.06) !important;
+        }
+      `}</style>
     </section>
   );
 }
