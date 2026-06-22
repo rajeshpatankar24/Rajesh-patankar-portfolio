@@ -19,7 +19,7 @@ const chapters = [
   },
   {
     id: 4, act: 'Chapter 4', title: 'Building Real Things',
-    bubble: "3 internships. Real clients. Real deadlines. Built a Tender Management App used in production.",
+    bubble: "2 internships. Real clients. Real deadlines. Built a Tender Management App used in production.",
     emoji: '🏗️', side: 'right',
   },
   {

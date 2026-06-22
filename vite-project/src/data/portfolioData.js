@@ -140,43 +140,27 @@ export const projects = [
 
 export const experiences = [
   {
-    company: "EduProHub",
-    role: "Web Developer Intern",
-    duration: "Feb 2026 – Apr 2026",
-    location: "On-site, Indore",
+    company: "Walrus solutions pvt ltd",
+    role: "Full Stack Developer Intern",
+    duration: "Feb 2026 – Mar 2026",
+    location: "Indore",
     color: "#c084fc",
     points: [
-      "Built and maintained company website pages using HTML, CSS, and JavaScript.",
-      "Created interactive UI components improving user engagement by 25%.",
-      "Assisted in migrating legacy pages to a modern React.js architecture.",
+      "Developed responsive React.js interfaces for OSM application.",
+      "Integrated REST APIs, optimized frontend performance, and collaborated with backend teams for seamless functionality.",
     ],
   },
   {
     company: "Anantixia LLP",
     role: "MERN Stack Developer Intern",
     duration: "Nov 2025 – Jan 2026",
-    location: "Remote",
+    location: "Gurugram",
     color: "#a78bfa",
     points: [
-      "Developed the Tender Management App — a full-stack solution for managing government procurement workflows.",
-      "Implemented secure document uploads with validation and file management via Multer.",
-      "Collaborated with design team to deliver a pixel-perfect, mobile-responsive UI.",
+      "Built reusable React.js components and integrated APIs for a school service platform.",
+      "Implemented multilingual support and improved responsive UI performance.",
     ],
   },
-  {
-    company: "Ypsilon IT Solution",
-    role: "Full Stack Developer Intern",
-    duration: "Nov 2024 – May 2025",
-    location: "Remote",
-    color: "#8b5cf6",
-    points: [
-      "Built RESTful APIs using Node.js & Express, reducing response time by 30% through query optimization.",
-      "Developed React.js dashboards with real-time data updates and role-based access control.",
-      "Integrated MongoDB for scalable data storage and implemented JWT-based authentication.",
-    ],
-  },
-  
-  
 ];
 
 export const education = [

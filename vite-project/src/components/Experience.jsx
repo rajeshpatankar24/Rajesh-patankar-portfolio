@@ -12,7 +12,7 @@ export default function Experience() {
           </p>
           <h2 className="section-title">My Experience</h2>
           <div className="section-divider" />
-          <p className="section-subtitle">3 internships that shaped my engineering mindset</p>
+          <p className="section-subtitle">{experiences.length} internships that shaped my engineering mindset</p>
         </motion.div>
 
         {/* Desktop alternating timeline */}
