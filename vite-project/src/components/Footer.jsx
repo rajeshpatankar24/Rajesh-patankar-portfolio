@@ -1,5 +1,6 @@
 import { FiHeart, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
+import Logo from './Logo';
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -35,10 +36,10 @@ export default function Footer() {
           marginBottom: '1.5rem',
         }}>
           {/* Logo */}
-          <div>
-            <span style={{ fontSize: '1.2rem', fontWeight: 800, letterSpacing: '-0.02em' }}>
-              {/* <span className="accent-text">RP</span> */}
-              <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: 500, marginLeft: '0.4rem' }}>Portfolio</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
+            <Logo size={28} />
+            <span style={{ fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', opacity: 0.8 }}>
+              Portfolio
             </span>
           </div>
 

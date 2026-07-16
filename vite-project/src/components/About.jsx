@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { personalInfo, funFacts } from '../data/portfolioData';
 import { FiMapPin, FiMail } from 'react-icons/fi';
+import Logo from './Logo';
 
 export default function About() {
   return (
@@ -90,8 +91,8 @@ export default function About() {
                   className="about-profile-img"
                   onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
                 />
-                <div style={{ display: 'none', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%' }}>
-                  <span style={{ fontSize: '3.5rem', fontWeight: 800, color: '#60a5fa' }}>RP</span>
+                <div style={{ display: 'none', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', width: '100%', height: '100%', color: 'var(--text-accent)' }}>
+                  <Logo size={100} />
                 </div>
               </div>
 

@@ -8,7 +8,7 @@ export const personalInfo = {
   linkedin: "https://www.linkedin.com/in/rajeshpatankar-y2024/", 
   github: "https://github.com/rajeshpatankar24",          
   githubUsername: "rajeshpatankar24 ",                    
-  resumeUrl: "/resume.pdf",
+  resumeUrl: "/Rajesh Patankar Fullstack Resume 16 july.pdf",
   location: "Indore, India",
   bio: "MCA graduate from RGPV, Bhopal. 1+ year building MERN stack applications that solve real-world problems. Cleared TCS NQT 2025. I love building things that actually make a difference — clean code, great UX, and solid architecture.",
 };
@@ -143,7 +143,7 @@ export const experiences = [
     company: "Walrus solutions pvt ltd",
     role: "Full Stack Developer Intern",
     duration: "Feb 2026 – Mar 2026",
-    location: "Indore",
+    // location: "Indore",
     color: "#c084fc",
     points: [
       "Developed responsive React.js interfaces for OSM application.",
@@ -154,7 +154,7 @@ export const experiences = [
     company: "Anantixia LLP",
     role: "MERN Stack Developer Intern",
     duration: "Nov 2025 – Jan 2026",
-    location: "Gurugram",
+    // location: "Gurugram",
     color: "#a78bfa",
     points: [
       "Built reusable React.js components and integrated APIs for a school service platform.",

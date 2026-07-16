@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { personalInfo } from '../data/portfolioData';
 import { useTheme } from '../context/ThemeContext';
 import { FiDownload, FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
+import Logo from './Logo';
 
 const navLinks = [
   { label: 'About', to: 'about' },
@@ -44,16 +45,24 @@ export default function Navbar() {
       position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
       background: scrolled ? 'var(--bg-primary)' : 'transparent',
       borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
-      transition: 'all 0.3s ease',
+    
     }} className={scrolled ? 'navbar-scrolled' : 'navbar-transparent'}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
         {/* Logo */}
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+          style={{ 
+            background: 'none', 
+            border: 'none', 
+            cursor: 'pointer', 
+            display: 'flex', 
+            alignItems: 'center', 
+            gap: '0.4rem',
+            color: scrolled ? 'var(--text-accent)' : '#ffffff',
+            
+          }}
         >
-          {/* <span style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-accent)', letterSpacing: '-0.02em' }}>RP</span> */}
-          <span className="logo-text" style={{ color: 'var(--text-muted)', fontSize: '0.88rem', fontWeight: 500 }}>Portfolio</span>
+          <Logo size={32} />
         </button>
 
         {/* Desktop Nav */}

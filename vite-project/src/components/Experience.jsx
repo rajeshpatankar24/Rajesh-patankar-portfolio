@@ -65,9 +65,9 @@ export default function Experience() {
                     <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: 'var(--text-muted)', fontSize: '0.76rem' }}>
                       <FiCalendar size={11} /> {exp.duration}
                     </span>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: 'var(--text-muted)', fontSize: '0.76rem' }}>
+                    {/* <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: 'var(--text-muted)', fontSize: '0.76rem' }}>
                       <FiMapPin size={11} /> {exp.location}
-                    </span>
+                    </span> */}
                   </div>
                   <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
                     {exp.points.map((pt, j) => (
