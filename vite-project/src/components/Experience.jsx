@@ -1,78 +1,56 @@
 import { motion } from 'framer-motion';
 import { experiences } from '../data/portfolioData';
-import { FiCalendar, FiMapPin, FiCheckCircle } from 'react-icons/fi';
+import { FiCalendar, FiCheckCircle } from 'react-icons/fi';
 
 export default function Experience() {
   return (
-    <section id="experience" className="section-padding" style={{ background: 'var(--bg-primary)' }}>
+    <section id="experience" className="section-padding bg-[var(--bg-primary)]">
       <div className="container">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-          <p style={{ textAlign: 'center', color: 'var(--text-accent)', fontWeight: 600, fontSize: '0.82rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <p className="text-center  font-semibold text-[0.68rem] tracking-widest uppercase mb-2">
             Work history
           </p>
           <h2 className="section-title">My Experience</h2>
           <div className="section-divider" />
-          <p className="section-subtitle">{experiences.length} internships that shaped my engineering mindset</p>
         </motion.div>
 
-        {/* Desktop alternating timeline */}
-        <div className="timeline-desktop" style={{ position: 'relative', maxWidth: '800px', margin: '0 auto', paddingBottom: '2rem' }}>
-          {/* Center line */}
-          <div style={{
-            position: 'absolute', left: '50%', top: 0, bottom: 0,
-            width: '1px', background: 'var(--border)', transform: 'translateX(-50%)',
-          }} />
+        {/* ── Desktop alternating timeline ── */}
+        <div className="hidden sm:block relative mx-auto mt-12 pb-8">
+          {/* Center spine */}
+          <div className="absolute left-1/2 top-0 bottom-0 w-px bg-[var(--border)] -translate-x-1/2" />
 
           {experiences.map((exp, i) => {
             const isLeft = i % 2 === 0;
             return (
-              <motion.div key={i}
-                initial={{ opacity: 0, x: isLeft ? -50 : 50 }}
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: isLeft ? -40 : 40 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.6, delay: i * 0.12 }}
-                style={{ display: 'flex', justifyContent: isLeft ? 'flex-start' : 'flex-end', marginBottom: '2.5rem', position: 'relative' }}
+                transition={{ duration: 0.55, delay: i * 0.1 }}
+                className={`flex mb-10 relative ${isLeft ? 'justify-start pr-[calc(50%+2rem)]' : 'justify-end pl-[calc(50%+2rem)]'}`}
               >
-                {/* Dot */}
-                <div style={{
-                  position: 'absolute', left: '50%', top: '1.6rem',
-                  transform: 'translateX(-50%)',
-                  width: '12px', height: '12px', borderRadius: '50%',
-                  background: 'var(--accent)', border: '2px solid var(--bg-primary)', zIndex: 1,
-                }} />
+                {/* Accent dot on the center spine */}
+                <div className="absolute left-1/2 top-12 -translate-x-1/2 w-3 h-3 rounded-full bg-[var(--accent)] border-2 border-[var(--bg-primary)] z-10" />
 
                 {/* Card */}
-                <div style={{
-                  width: 'calc(50% - 2.5rem)',
-                  padding: '1.35rem', borderRadius: '10px',
-                  background: 'var(--bg-card)', border: '1px solid var(--border)',
-                  transition: 'all 0.2s ease',
-                }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateY(0)'; }}
-                >
-                  <div style={{
-                    display: 'inline-block', background: 'var(--btn-primary-bg)',
-                    color: 'var(--btn-primary-text)', padding: '0.18rem 0.6rem',
-                    borderRadius: '5px', fontSize: '0.68rem', fontWeight: 700,
-                    letterSpacing: '0.04em', marginBottom: '0.55rem',
-                    border: '1px solid var(--border-light)',
-                  }}>
+                <div className="w-full p-5 t-12 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] transition-all duration-200 hover:border-[var(--accent)] hover:-translate-y-0.5 shadow-sm">
+                  <div className="inline-block bg-[var(--btn-primary-bg)] text-[var(--btn-primary-text)] py-0.5 px-2.5 rounded-md text-[0.68rem] font-bold tracking-wider mb-2 border border-[var(--border-light)]">
                     {exp.company}
                   </div>
-                  <h3 style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.4rem' }}>{exp.role}</h3>
-                  <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '0.8rem' }}>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: 'var(--text-muted)', fontSize: '0.76rem' }}>
-                      <FiCalendar size={11} /> {exp.duration}
-                    </span>
-                    {/* <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem', color: 'var(--text-muted)', fontSize: '0.76rem' }}>
-                      <FiMapPin size={11} /> {exp.location}
-                    </span> */}
+                  <h3 className="text-[0.95rem] font-bold text-[var(--text-primary)] mb-1.5">{exp.role}</h3>
+                  <div className="flex items-center gap-1.5 text-[var(--text-muted)] text-[0.76rem] mb-3">
+                    <FiCalendar size={11} /> {exp.duration}
                   </div>
-                  <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.45rem' }}>
+                  <ul className="list-none flex flex-col gap-2">
                     {exp.points.map((pt, j) => (
-                      <li key={j} style={{ display: 'flex', gap: '0.45rem', fontSize: '0.8rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                        <FiCheckCircle size={12} style={{ color: 'var(--text-accent)', flexShrink: 0, marginTop: '2px' }} />
+                      <li key={j} className="flex gap-2 text-[0.8rem] text-[var(--text-secondary)] leading-relaxed">
+                        <FiCheckCircle size={12} className="text-[var(--text-accent)] shrink-0 mt-[3px]" />
                         {pt}
                       </li>
                     ))}
@@ -83,24 +61,33 @@ export default function Experience() {
           })}
         </div>
 
-        {/* Mobile single column */}
-        <div className="timeline-mobile" style={{ display: 'none', flexDirection: 'column', gap: '1rem', position: 'relative', maxWidth: '600px', margin: '0 auto', paddingLeft: '1.75rem' }}>
-          <div style={{ position: 'absolute', left: '0.5rem', top: 0, bottom: 0, width: '1px', background: 'var(--border)' }} />
+        {/* ── Mobile single column ── */}
+        <div className="flex sm:hidden flex-col gap-5 relative max-w-[600px] mx-auto mt-10 pl-7">
+          {/* Left spine */}
+          <div className="absolute left-2 top-0 bottom-0 w-px bg-[var(--border)]" />
           {experiences.map((exp, i) => (
-            <motion.div key={i}
-              initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.1 }}
-              style={{ position: 'relative' }}
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: i * 0.1 }}
+              className="relative"
             >
-              <div style={{ position: 'absolute', left: '-1.42rem', top: '1.1rem', width: '10px', height: '10px', borderRadius: '50%', background: 'var(--accent)', border: '2px solid var(--bg-primary)' }} />
-              <div style={{ padding: '1.1rem', borderRadius: '10px', background: 'var(--bg-card)', border: '1px solid var(--border)' }}>
-                <div style={{ display: 'inline-block', background: 'var(--btn-primary-bg)', color: 'var(--btn-primary-text)', padding: '0.15rem 0.55rem', borderRadius: '5px', fontSize: '0.66rem', fontWeight: 700, marginBottom: '0.45rem', border: '1px solid var(--border-light)' }}>{exp.company}</div>
-                <h3 style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.3rem' }}>{exp.role}</h3>
-                <p style={{ color: 'var(--text-muted)', fontSize: '0.73rem', marginBottom: '0.7rem' }}>{exp.duration} · {exp.location}</p>
-                <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+              {/* Dot */}
+              <div className="absolute left-[-1.35rem] top-6 w-2.5 h-2.5 rounded-full bg-[var(--accent)] border-2 border-[var(--bg-primary)] z-10" />
+              <div className="p-4 rounded-xl bg-[var(--bg-card)] border border-[var(--border)] hover:border-[var(--accent)] transition-all duration-200">
+                <div className="inline-block bg-[var(--btn-primary-bg)] text-[var(--btn-primary-text)] py-0.5 px-2.5 rounded-md text-[0.66rem] font-bold tracking-wider mb-2 border border-[var(--border-light)]">
+                  {exp.company}
+                </div>
+                <h3 className="text-[0.9rem] font-bold text-[var(--text-primary)] mb-1">{exp.role}</h3>
+                <p className="flex items-center gap-1.5 text-[var(--text-muted)] text-[0.73rem] mb-3">
+                  <FiCalendar size={10} /> {exp.duration}
+                </p>
+                <ul className="list-none flex flex-col gap-2">
                   {exp.points.map((pt, j) => (
-                    <li key={j} style={{ display: 'flex', gap: '0.4rem', fontSize: '0.78rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>
-                      <FiCheckCircle size={11} style={{ color: 'var(--text-accent)', flexShrink: 0, marginTop: '2px' }} /> {pt}
+                    <li key={j} className="flex gap-2 text-[0.78rem] text-[var(--text-secondary)] leading-relaxed">
+                      <FiCheckCircle size={11} className="text-[var(--text-accent)] shrink-0 mt-[3px]" /> {pt}
                     </li>
                   ))}
                 </ul>
@@ -109,12 +96,6 @@ export default function Experience() {
           ))}
         </div>
       </div>
-      <style>{`
-        @media (max-width: 640px) {
-          .timeline-desktop { display: none !important; }
-          .timeline-mobile { display: flex !important; }
-        }
-      `}</style>
     </section>
   );
 }

@@ -3,13 +3,7 @@ import React from 'react';
 export default function Logo({ size = 32, className = '' }) {
   return (
     <div 
-      className={`logo-container ${className}`}
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        cursor: 'pointer',
-      }}
+      className={`inline-flex items-center justify-center cursor-pointer group ${className}`}
     >
       <img
         src="/rp.png"
@@ -17,19 +11,10 @@ export default function Logo({ size = 32, className = '' }) {
         style={{
           width: `${size}px`,
           height: `${size}px`,
-          objectFit: 'contain',
-          transition: 'transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease',
+          filter: 'var(--logo-filter)',
         }}
-        className="logo-img"
+        className="object-contain transition-all duration-[400ms] [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] group-hover:scale-110 group-hover:rotate-[3deg] group-hover:drop-shadow-[0_0_10px_rgba(96,165,250,0.5)]"
       />
-
-      <style>{`
-        .logo-container:hover .logo-img {
-          transform: scale(1.1) rotate(3deg);
-          filter: drop-shadow(0 0 10px rgba(96, 165, 250, 0.5));
-        }
-      `}</style>
     </div>
   );
 }
-

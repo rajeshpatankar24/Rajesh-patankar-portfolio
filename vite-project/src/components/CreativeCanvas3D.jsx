@@ -343,27 +343,9 @@ export default function CreativeCanvas3D() {
   // WebGL Fallback layout
   if (!hasWebGL) {
     return (
-      <div 
-        style={{
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 0
-        }}
-      >
-        <div style={{
-          position: 'absolute',
-          width: '240px',
-          height: '240px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, var(--accent) 0%, transparent 70%)',
-          filter: 'blur(40px)',
-          opacity: 0.18,
-          animation: 'pulseGlow 4s infinite alternate'
-        }} />
-        <div style={{ fontSize: '6rem', animation: 'float 3s ease-in-out infinite' }}>🔮</div>
+      <div className="w-full h-full flex items-center justify-center z-0">
+        <div className="absolute w-[240px] h-[240px] rounded-full [background:radial-gradient(circle,var(--accent)_0%,transparent_70%)] blur-[40px] opacity-18 animate-[pulseGlow_4s_infinite_alternate]" />
+        <div className="text-[6rem] animate-[float_3s_ease-in-out_infinite]">🔮</div>
       </div>
     );
   }
@@ -371,25 +353,11 @@ export default function CreativeCanvas3D() {
   return (
     <div 
       ref={containerRef} 
-      style={{ 
-        width: '100%', 
-        height: '100%', 
-        overflow: 'hidden',
-        position: 'relative',
-        zIndex: 1
-      }}
-      className="creative-canvas-container"
+      className="w-full h-full overflow-hidden relative z-10 creative-canvas-container"
     >
       <canvas 
         ref={canvasRef} 
-        style={{ 
-          position: 'absolute', 
-          inset: 0,
-          width: '100%', 
-          height: '100%',
-          outline: 'none',
-          display: 'block'
-        }} 
+        className="absolute inset-0 w-full h-full outline-none block" 
       />
     </div>
   );

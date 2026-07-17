@@ -1,168 +1,185 @@
-import { useState, useEffect } from 'react';
-import { personalInfo } from '../data/portfolioData';
-import { useTheme } from '../context/ThemeContext';
-import { FiDownload, FiMenu, FiX, FiSun, FiMoon } from 'react-icons/fi';
-import Logo from './Logo';
+import { useState, useEffect } from 'react'
+import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion'
+import { useTheme } from '../context/ThemeContext'
+import { personalInfo } from '../data/portfolioData'
+import Logo from './Logo'
+import { FiSun, FiMoon, FiDownload, FiMenu, FiX } from 'react-icons/fi'
 
-const navLinks = [
-  { label: 'About', to: 'about' },
-  { label: 'Skills', to: 'skills' },
-  { label: 'Projects', to: 'projects' },
-  { label: 'Experience', to: 'experience' },
-  { label: 'Contact', to: 'contact' },
-];
+export default function ScrollHideHeader() {
+  const { scrollY } = useScroll()
+  const { theme, toggleTheme } = useTheme()
+  const isDark = theme === 'dark'
 
-export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('');
-  const [menuOpen, setMenuOpen] = useState(false);
-  const { theme, toggleTheme } = useTheme();
-  const isDark = theme === 'dark';
+  const [hidden, setHidden] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [activeSection, setActiveSection] = useState('hero')
+  const [menuOpen, setMenuOpen] = useState(false)
 
+  const navLinks = [
+
+    { label: 'Projects', to: 'projects' },
+    { label: 'Experience', to: 'experience' },
+    { label: 'Education', to: 'education' },
+    { label: 'Contact', to: 'contact' },
+  ]
+
+  useMotionValueEvent(scrollY, "change", (current) => {
+    // Scroll Hide Logic (hide header when scrolling down, show when scrolling up)
+    const previous = scrollY.getPrevious() ?? 0
+    if (current > previous && current > 150) {
+      setHidden(true)
+    } else {
+      setHidden(false)
+    }
+
+    // Scrolled state for transparent vs glass styling
+    if (current > 50) {
+      setScrolled(true)
+    } else {
+      setScrolled(false)
+    }
+  })
+
+  // Track active section as user scrolls
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight / 3
 
-  useEffect(() => {
-    const sections = navLinks.map(l => document.getElementById(l.to)).filter(Boolean);
-    const observer = new IntersectionObserver(
-      entries => { entries.forEach(e => { if (e.isIntersecting) setActiveSection(e.target.id); }); },
-      { threshold: 0.4 }
-    );
-    sections.forEach(s => observer.observe(s));
-    return () => observer.disconnect();
-  }, []);
+      for (const link of navLinks) {
+        const el = document.getElementById(link.to)
+        if (el) {
+          const top = el.offsetTop
+          const height = el.offsetHeight
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(link.to)
+            break
+          }
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    handleScroll() // initial call
+
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const scrollTo = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-    setMenuOpen(false);
-  };
+    const element = document.getElementById(id)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
+    setMenuOpen(false)
+  }
 
   return (
-    <nav style={{
-      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000,
-      background: scrolled ? 'var(--bg-primary)' : 'transparent',
-      borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
-    
-    }} className={scrolled ? 'navbar-scrolled' : 'navbar-transparent'}>
-      <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
-        {/* Logo */}
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          style={{ 
-            background: 'none', 
-            border: 'none', 
-            cursor: 'pointer', 
-            display: 'flex', 
-            alignItems: 'center', 
-            gap: '0.4rem',
-            color: scrolled ? 'var(--text-accent)' : '#ffffff',
-            
-          }}
-        >
-          <Logo size={32} />
-        </button>
+    <div id="example" className="h-auto overflow-visible">
+      <motion.header
+        animate={{
+          y: hidden ? -90 : 0,
+          opacity: hidden ? 0 : 1,
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className={`fixed top-0 left-0 right-0 h-20 z-[1000] flex items-center transition-all duration-300 ${scrolled
+          ? 'bg-[var(--glass-bg)] border-b border-[var(--border)] shadow-[0_10px_30px_-10px_var(--shadow)] backdrop-blur-md'
+          : 'bg-transparent border-b-transparent shadow-none backdrop-blur-none'
+          }`}
+      >
+        <div className="w-full max-w-[1200px] mx-auto px-6 flex items-center justify-between">
+          <div className="flex items-center ">
+            <button
+              onClick={() => scrollTo('hero')}
+              className="bg-transparent border-none cursor-pointer flex items-center gap-2.5 p-4 outline-none"
+            >
+              <Logo size={36} />
 
-        {/* Desktop Nav */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }} className="desktop-nav">
-          {navLinks.map(link => (
-            <button key={link.to}
-              className={`nav-link ${activeSection === link.to ? 'active' : ''}`}
-              onClick={() => scrollTo(link.to)}
-              style={{ background: 'none', border: 'none', fontFamily: 'Inter, sans-serif' }}>
-              {link.label}
             </button>
-          ))}
+          </div>
 
-          {/* Theme toggle */}
-          <button onClick={toggleTheme}
-            className="theme-toggle"
-            title={isDark ? 'Light mode' : 'Dark mode'}
-            style={{
-              width: '36px', height: '36px', borderRadius: '8px',
-              background: 'var(--bg-card)',
-              border: '1px solid var(--border-light)',
-              cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: 'var(--text-secondary)',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--text-accent)'; e.currentTarget.style.color = 'var(--text-accent)'; }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-light)'; e.currentTarget.style.color = 'var(--text-secondary)'; }}>
-            {isDark ? <FiSun size={15} /> : <FiMoon size={15} />}
-          </button>
+          {/* Desktop Nav Links & Controls */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <button
+                key={link.to}
+                className={`nav-link bg-transparent border-none font-sans py-1 cursor-pointer ${activeSection === link.to ? 'active' : ''
+                  }`}
+                onClick={() => scrollTo(link.to)}
+              >
+                {link.label}
+              </button>
+            ))}
 
-          <a href={personalInfo.resumeUrl} download className="btn-accent"
-            style={{ padding: '0.48rem 1.1rem', fontSize: '0.82rem', textDecoration: 'none' }}>
-            <FiDownload size={13} /> Resume
-          </a>
-        </div>
-
-        {/* Mobile controls */}
-        <div className="mobile-controls" style={{ display: 'none', alignItems: 'center', gap: '0.5rem' }}>
-          <button onClick={toggleTheme}
-            className="theme-toggle"
-            style={{ width: '34px', height: '34px', borderRadius: '7px', background: 'var(--bg-card)', border: '1px solid var(--border-light)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
-            {isDark ? <FiSun size={14} /> : <FiMoon size={14} />}
-          </button>
-          <button onClick={() => setMenuOpen(!menuOpen)}
-            className="menu-btn"
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-primary)', display: 'flex', alignItems: 'center' }}
-            aria-label="Toggle menu">
-            {menuOpen ? <FiX size={22} /> : <FiMenu size={22} />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div style={{
-          background: 'var(--bg-primary)',
-          borderTop: '1px solid var(--border)',
-          padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem',
-        }}>
-          {navLinks.map(link => (
-            <button key={link.to}
-              className={`nav-link ${activeSection === link.to ? 'active' : ''}`}
-              onClick={() => scrollTo(link.to)}
-              style={{ background: 'none', border: 'none', textAlign: 'left', fontSize: '1rem', fontFamily: 'Inter, sans-serif' }}>
-              {link.label}
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="w-9 h-9 rounded-lg bg-[var(--bg-card)] border border-[var(--border-light)] cursor-pointer flex items-center justify-center text-[var(--text-secondary)] transition-all duration-200 hover:border-[var(--accent)] hover:text-[var(--text-primary)] outline-none"
+              title={isDark ? 'Light mode' : 'Dark mode'}
+            >
+              {isDark ? <FiSun size={16} /> : <FiMoon size={16} />}
             </button>
-          ))}
-          <a href={personalInfo.resumeUrl} download className="btn-accent"
-            style={{ textDecoration: 'none', justifyContent: 'center' }}>
-            <FiDownload size={14} /> Download Resume
-          </a>
+
+            {/* Download Resume Button */}
+            <a
+              href={personalInfo.resumeUrl}
+              download
+              className="btn-accent px-5 py-2 text-[0.85rem] no-underline inline-flex items-center gap-2"
+            >
+              <FiDownload size={14} /> Resume
+            </a>
+          </div>
+
+          {/* Mobile controls */}
+          <div className="flex md:hidden items-center gap-3">
+            <button
+              onClick={toggleTheme}
+              className="w-[34px] h-[34px] rounded-[7px] bg-[var(--bg-card)] border border-[var(--border-light)] cursor-pointer flex items-center justify-center text-[var(--text-secondary)] outline-none"
+              aria-label="Toggle theme"
+            >
+              {isDark ? <FiSun size={15} /> : <FiMoon size={15} />}
+            </button>
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="bg-transparent border-none cursor-pointer text-[var(--text-primary)] flex items-center p-1 outline-none"
+              aria-label="Toggle menu"
+            >
+              {menuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+            </button>
+          </div>
         </div>
-      )}
 
-      <style>{`
-        /* Transparent state overrides for light theme on dark background images */
-        [data-theme="light"] .navbar-transparent .nav-link {
-          color: rgba(255, 255, 255, 0.8) !important;
-        }
-        [data-theme="light"] .navbar-transparent .nav-link:hover,
-        [data-theme="light"] .navbar-transparent .nav-link.active {
-          color: #ffffff !important;
-        }
-        [data-theme="light"] .navbar-transparent .logo-text {
-          color: rgba(255, 255, 255, 0.8) !important;
-        }
-        [data-theme="light"] .navbar-transparent .theme-toggle {
-          background: rgba(255, 255, 255, 0.08) !important;
-          border-color: rgba(255, 255, 255, 0.25) !important;
-          color: #ffffff !important;
-        }
-        [data-theme="light"] .navbar-transparent .menu-btn {
-          color: #ffffff !important;
-        }
-
-        @media (max-width: 768px) {
-          .desktop-nav { display: none !important; }
-          .mobile-controls { display: flex !important; }
-        }
-      `}</style>
-    </nav>
-  );
+        {/* Mobile Dropdown Panel */}
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.2 }}
+              className="absolute top-20 left-0 right-0 bg-[var(--bg-primary)] border-b border-[var(--border)] shadow-[0_10px_30px_var(--shadow)] p-6 flex flex-col gap-4 z-[999]"
+            >
+              {navLinks.map((link) => (
+                <button
+                  key={link.to}
+                  className={`nav-link bg-transparent border-none text-left text-base font-sans py-2 cursor-pointer ${activeSection === link.to ? 'active' : ''
+                    }`}
+                  onClick={() => scrollTo(link.to)}
+                >
+                  {link.label}
+                </button>
+              ))}
+              <div className="flex gap-4 mt-2">
+                <a
+                  href={personalInfo.resumeUrl}
+                  download
+                  className="btn-accent no-underline inline-flex items-center justify-center gap-2 flex-1 py-3"
+                >
+                  <FiDownload size={14} /> Resume
+                </a>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.header>
+    </div>
+  )
 }

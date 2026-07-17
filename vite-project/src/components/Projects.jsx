@@ -1,143 +1,54 @@
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { projects } from '../data/portfolioData';
 import { FiExternalLink, FiGithub, FiZap, FiX, FiArrowRight, FiCheck, FiCpu } from 'react-icons/fi';
 
 const categories = ['All', ...new Set(projects.map(p => p.category))];
 
 function ProjectCard({ project, index, onViewDetails }) {
-  const [hovered, setHovered] = useState(false);
+  const cardNumber = String(index + 1).padStart(2, '0');
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 36 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        borderRadius: '16px',
-        border: hovered ? '1px solid var(--accent)' : '1px solid var(--border)',
-        background: 'var(--bg-card)',
-        overflow: 'hidden',
-        transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-        transform: hovered ? 'translateY(-6px)' : 'translateY(0)',
-        boxShadow: hovered ? '0 20px 40px var(--shadow)' : '0 4px 20px rgba(0,0,0,0.03)',
-        cursor: 'default',
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-      }}
+    <div
+      onClick={() => onViewDetails(project)}
+      className="w-full h-full rounded-2xl overflow-hidden border border-[var(--border)] relative cursor-pointer group shadow-lg"
     >
+      {/* Full-bleed Image */}
+      <img
+        src={project.image}
+        alt={project.title}
+        className="w-full h-full object-cover transition-transform duration-[800ms] [transition-timing-function:cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+        onError={e => { e.target.src = `https://placehold.co/400x520/16161f/8b5cf6?text=${encodeURIComponent(project.title)}`; }}
+      />
+
+      {/* Bottom Gradient Overlay to ensure text readability */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent pointer-events-none" />
+
+      {/* Featured Badge */}
       {project.featured && (
-        <div style={{
-          position: 'absolute', top: '12px', right: '12px', zIndex: 10,
-          background: 'var(--btn-primary-bg)', color: 'var(--btn-primary-text)',
-          padding: '0.25rem 0.65rem', borderRadius: '8px',
-          fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.05em',
-          display: 'flex', alignItems: 'center', gap: '0.25rem',
-          border: '1px solid var(--border-light)',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-        }}>
+        <div className="absolute top-4 right-4 z-10 bg-[var(--accent)] text-white py-1 px-2.5 rounded-lg text-[0.65rem] font-bold tracking-wider flex items-center gap-1 border border-white/10 shadow-md">
           <FiZap size={10} /> Featured
         </div>
       )}
 
-      {/* Image Container */}
-      <div style={{ height: '200px', overflow: 'hidden', position: 'relative' }}>
-        <img src={project.image} alt={project.title}
-          style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)', transform: hovered ? 'scale(1.08)' : 'scale(1)' }}
-          onError={e => { e.target.src = `https://placehold.co/600x200/16161f/8b5cf6?text=${encodeURIComponent(project.title)}`; }} />
-
-        {/* Hover overlay for Problem statement */}
-        <AnimatePresence>
-          {hovered && (
-            <motion.div
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              style={{
-                position: 'absolute', inset: 0,
-                background: 'rgba(10,10,15,0.92)',
-                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                padding: '1.5rem', gap: '0.75rem',
-                backdropFilter: 'blur(4px)',
-              }}>
-              <p style={{ fontSize: '0.72rem', color: 'var(--text-accent)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.08em' }}>
-                💡 Problem Solved
-              </p>
-              <p style={{ color: '#ffffff', fontSize: '0.82rem', textAlign: 'center', lineHeight: 1.6, padding: '0 0.5rem' }}>
-                {project.problem}
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
+      {/* Content overlay at the bottom left */}
+      <div className="absolute bottom-6 left-6 right-6 z-10 pointer-events-none">
+        <span className="text-[0.88rem] font-mono font-bold block mb-1 text-[var(--accent)] tracking-widest">
+          {cardNumber}
+        </span>
+        <h3 className="text-2xl md:text-3xl font-extrabold text-white leading-tight mb-2 tracking-tight group-hover:text-[var(--accent)] transition-colors duration-300">
+          {project.title}
+        </h3>
+        <span className="inline-block bg-white/10 border border-white/10 text-white/80 py-0.5 px-2 rounded-md text-[0.62rem] font-semibold tracking-wider uppercase">
+          {project.category}
+        </span>
       </div>
-
-      {/* Content Container */}
-      <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', flexGrow: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-          <h3 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1.3 }}>
-            {project.title}
-          </h3>
-          <span style={{
-            background: 'var(--bg-secondary)', color: 'var(--text-muted)',
-            border: '1px solid var(--border)',
-            padding: '0.15rem 0.5rem', borderRadius: '6px',
-            fontSize: '0.65rem', fontWeight: 600, whiteSpace: 'nowrap', marginLeft: '0.5rem',
-          }}>
-            {project.category}
-          </span>
-        </div>
-
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: 1.6, marginBottom: '1.2rem', flexGrow: 1 }}>
-          {project.description}
-        </p>
-
-        {/* Tech Badges */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1.25rem' }}>
-          {project.tech.map(t => <span key={t} className="tech-badge">{t}</span>)}
-        </div>
-
-        {/* Quick Links & View Case Study Button */}
-        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', borderTop: '1px solid var(--border)', paddingTop: '1rem', marginTop: 'auto' }}>
-          <button
-            onClick={() => onViewDetails(project)}
-            className="btn-accent"
-            style={{
-              flex: 1, justifyContent: 'center', padding: '0.6rem 1rem', fontSize: '0.8rem',
-              borderRadius: '8px', cursor: 'pointer', outline: 'none', border: 'none',
-            }}
-          >
-            Case Study <FiArrowRight size={12} style={{ transition: 'transform 0.2s', transform: hovered ? 'translateX(3px)' : 'none' }} />
-          </button>
-          
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
-            <a href={project.github} target="_blank" rel="noopener noreferrer" className="btn-outline"
-              title="GitHub Repository"
-              style={{
-                width: '36px', height: '36px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px'
-              }}>
-              <FiGithub size={15} />
-            </a>
-            <a href={project.live} target="_blank" rel="noopener noreferrer" className="btn-outline"
-              title="Live Demo"
-              style={{
-                width: '36px', height: '36px', padding: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '8px'
-              }}>
-              <FiExternalLink size={15} />
-            </a>
-          </div>
-        </div>
-      </div>
-    </motion.div>
+    </div>
   );
 }
 
 // Case Study Modal Component
 function ProjectModal({ project, onClose }) {
-  // Prevent background scroll when modal is open
   useEffect(() => {
     document.body.style.overflow = 'hidden';
     return () => {
@@ -151,14 +62,7 @@ function ProjectModal({ project, onClose }) {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={onClose}
-      style={{
-        position: 'fixed', inset: 0,
-        background: 'rgba(5, 5, 8, 0.88)',
-        backdropFilter: 'blur(12px)',
-        zIndex: 1000,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '1.5rem',
-      }}
+      className="fixed inset-0 bg-[#050508]/88 backdrop-blur-md z-[1000] flex items-center justify-center p-6"
     >
       <motion.div
         initial={{ scale: 0.95, y: 20, opacity: 0 }}
@@ -166,109 +70,78 @@ function ProjectModal({ project, onClose }) {
         exit={{ scale: 0.95, y: 20, opacity: 0 }}
         transition={{ type: 'spring', damping: 25, stiffness: 350 }}
         onClick={e => e.stopPropagation()}
-        style={{
-          maxWidth: '750px', width: '100%',
-          maxHeight: '85vh',
-          background: 'var(--bg-card)',
-          border: '1px solid var(--border-light)',
-          borderRadius: '20px',
-          boxShadow: '0 24px 60px rgba(0, 0, 0, 0.7)',
-          overflow: 'hidden',
-          display: 'flex', flexDirection: 'column',
-          position: 'relative',
-        }}
+        className="max-w-[750px] w-full max-h-[85vh] bg-[var(--bg-card)] border border-[var(--border-light)] rounded-2xl shadow-[0_24px_60px_rgba(0,0,0,0.7)] overflow-hidden flex flex-col relative"
       >
-        {/* Header Close Button */}
         <button
           onClick={onClose}
-          style={{
-            position: 'absolute', top: '16px', right: '16px', zIndex: 100,
-            width: '36px', height: '36px', borderRadius: '50%',
-            background: 'rgba(10, 10, 15, 0.6)', border: '1px solid rgba(255, 255, 255, 0.1)',
-            color: '#ffffff', display: 'flex', alignItems: 'center', justifyContent: 'center',
-            cursor: 'pointer', transition: 'all 0.2s', backdropFilter: 'blur(4px)',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.transform = 'rotate(90deg)'; e.currentTarget.style.background = 'var(--accent)'; e.currentTarget.style.color = 'var(--bg-primary)'; }}
-          onMouseLeave={e => { e.currentTarget.style.transform = 'rotate(0deg)'; e.currentTarget.style.background = 'rgba(10, 10, 15, 0.6)'; e.currentTarget.style.color = '#ffffff'; }}
+          className="absolute top-4 right-4 z-[100] w-9 h-9 rounded-full bg-[#0a0a0f]/60 border border-white/10 text-white flex items-center justify-center cursor-pointer transition-all duration-200 backdrop-blur-[4px] hover:rotate-90 hover:bg-[var(--accent)] hover:text-[var(--bg-primary)]"
         >
           <FiX size={18} />
         </button>
 
-        {/* Modal Image Header */}
-        <div style={{ height: '220px', position: 'relative', overflow: 'hidden' }}>
-          <img src={project.image} alt={project.title}
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            onError={e => { e.target.src = `https://placehold.co/600x200/16161f/8b5cf6?text=${encodeURIComponent(project.title)}`; }} />
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: 'linear-gradient(to top, var(--bg-card) 5%, rgba(10,10,15,0.4) 100%)',
-          }} />
-          <div style={{ position: 'absolute', bottom: '20px', left: '24px', right: '24px' }}>
-            <span style={{
-              background: 'var(--btn-primary-bg)', color: 'var(--btn-primary-text)',
-              padding: '0.2rem 0.6rem', borderRadius: '6px',
-              fontSize: '0.7rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em',
-              display: 'inline-block', marginBottom: '0.5rem', boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-            }}>
+        <div className="h-[220px] relative overflow-hidden">
+          <img
+            src={project.image}
+            alt={project.title}
+            className="w-full h-full object-cover"
+            onError={e => { e.target.src = `https://placehold.co/600x200/16161f/8b5cf6?text=${encodeURIComponent(project.title)}`; }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-card)] to-black/40" />
+          <div className="absolute bottom-5 left-6 right-6">
+            <span className="bg-[var(--btn-primary-bg)] text-[var(--btn-primary-text)] py-1 px-2.5 rounded-md text-[0.7rem] font-bold uppercase tracking-wider inline-block mb-2 shadow-sm">
               {project.category}
             </span>
-            <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: '#ffffff', textShadow: '0 2px 4px rgba(0,0,0,0.3)', lineHeight: 1.2 }}>
+            <h2 className="text-[1.75rem] font-extrabold text-white [text-shadow:0_2px_4px_rgba(0,0,0,0.3)] leading-tight">
               {project.title}
             </h2>
           </div>
         </div>
 
-        {/* Scrollable Content */}
-        <div style={{ padding: '2rem', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '1.5rem', color: 'var(--text-secondary)' }}>
-          
-          {/* Section: Overview */}
+        <div className="p-8 overflow-y-auto flex flex-col gap-6 text-[var(--text-secondary)]">
           <div>
-            <h4 style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+            <h4 className="text-[var(--text-primary)] font-bold text-[0.95rem] mb-2 flex items-center gap-1.5">
               🎯 Overview
             </h4>
-            <p style={{ fontSize: '0.9rem', lineHeight: 1.6 }}>{project.longDescription}</p>
+            <p className="text-[0.9rem] leading-relaxed">{project.longDescription}</p>
           </div>
 
-          {/* Grid for Problem & Challenges */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1.25rem' }}>
-            <div style={{ padding: '1.1rem', borderRadius: '12px', background: 'var(--bg-secondary)', border: '1px solid var(--border)' }}>
-              <h5 style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.88rem', marginBottom: '0.4rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+            <div className="p-4.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border)]">
+              <h5 className="text-[var(--text-primary)] font-bold text-[0.88rem] mb-1.5 flex items-center gap-1.5">
                 💡 The Problem
               </h5>
-              <p style={{ fontSize: '0.85rem', lineHeight: 1.55 }}>{project.problem}</p>
+              <p className="text-[0.85rem] leading-relaxed">{project.problem}</p>
             </div>
-            
-            <div style={{ padding: '1.1rem', borderRadius: '12px', background: 'var(--bg-secondary)', border: '1px solid var(--border)' }}>
-              <h5 style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.88rem', marginBottom: '0.4rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                <FiCpu size={14} style={{ color: 'var(--text-accent)' }} /> Key Challenges
+
+            <div className="p-4.5 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border)]">
+              <h5 className="text-[var(--text-primary)] font-bold text-[0.88rem] mb-1.5 flex items-center gap-1.5">
+                <FiCpu size={14} className="text-[var(--text-accent)]" /> Key Challenges
               </h5>
-              <p style={{ fontSize: '0.85rem', lineHeight: 1.55 }}>{project.challenges}</p>
+              <p className="text-[0.85rem] leading-relaxed">{project.challenges}</p>
             </div>
           </div>
 
-          {/* Section: Features */}
           <div>
-            <h4 style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.75rem' }}>
+            <h4 className="text-[var(--text-primary)] font-bold text-[0.95rem] mb-3">
               ⚡ Core Features Implemented
             </h4>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '0.75rem' }}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {project.features.map((feat, i) => (
-                <div key={i} style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
-                  <FiCheck size={14} style={{ color: '#10b981', marginTop: '4px', flexShrink: 0 }} />
-                  <span style={{ fontSize: '0.85rem', lineHeight: 1.5 }}>{feat}</span>
+                <div key={i} className="flex gap-2 items-start">
+                  <FiCheck size={14} className="text-[#10b981] mt-1 shrink-0" />
+                  <span className="text-[0.85rem] leading-relaxed">{feat}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Section: Tech Stack */}
           <div>
-            <h4 style={{ color: 'var(--text-primary)', fontWeight: 700, fontSize: '0.95rem', marginBottom: '0.6rem' }}>
+            <h4 className="text-[var(--text-primary)] font-bold text-[0.95rem] mb-2.5">
               🛠️ Technologies & Tools Used
             </h4>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+            <div className="flex flex-wrap gap-2">
               {project.tech.map(t => (
-                <span key={t} className="tech-badge" style={{ padding: '0.3rem 0.75rem', fontSize: '0.75rem', borderRadius: '8px' }}>
+                <span key={t} className="tech-badge py-1 px-3.5 text-[0.75rem] rounded-lg">
                   {t}
                 </span>
               ))}
@@ -276,20 +149,21 @@ function ProjectModal({ project, onClose }) {
           </div>
         </div>
 
-        {/* Modal Footer Actions */}
-        <div style={{
-          padding: '1.25rem 2rem',
-          borderTop: '1px solid var(--border)',
-          background: 'var(--bg-secondary)',
-          display: 'flex', gap: '1rem',
-          justifyContent: 'flex-end',
-        }}>
-          <a href={project.github} target="_blank" rel="noopener noreferrer" className="btn-outline"
-            style={{ padding: '0.6rem 1.5rem', fontSize: '0.85rem', borderRadius: '8px' }}>
+        <div className="p-5 px-8 border-t border-[var(--border)] bg-[var(--bg-secondary)] flex gap-4 justify-end">
+          <a
+            href={project.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-outline px-6 py-2.5 text-[0.85rem] rounded-lg inline-flex items-center gap-2"
+          >
             <FiGithub size={14} /> View Code
           </a>
-          <a href={project.live} target="_blank" rel="noopener noreferrer" className="btn-accent"
-            style={{ padding: '0.6rem 1.5rem', fontSize: '0.85rem', borderRadius: '8px' }}>
+          <a
+            href={project.live}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-accent px-6 py-2.5 text-[0.85rem] rounded-lg inline-flex items-center gap-2"
+          >
             <FiExternalLink size={14} /> Live Demo
           </a>
         </div>
@@ -298,70 +172,191 @@ function ProjectModal({ project, onClose }) {
   );
 }
 
+// Single card driven by its own scroll-derived y/opacity/scale
+function ScrollCard({ project, index, total, scrollYProgress, onViewDetails }) {
+  const cardNumber = String(index + 1).padStart(2, '0');
+
+  const isFirst = index === 0;
+  const isLast = index === total - 1;
+
+  // Each card occupies 1/total of the scroll range
+  // For n cards, we divide [0, 1] into n equal slots
+  const slot = 1 / total;
+  const start = index * slot;
+  const end = (index + 1) * slot;
+  const mid = (start + end) / 2;
+
+  // First card: already visible at scroll=0, only exits left
+  // Last card: enters from right, never exits (stays visible)
+  // Middle cards: enter from right, exit to left with fade
+
+  const xValues = isFirst
+    ? ['0%', '0%', '0%']          // stays, no entrance
+    : ['100%', '0%', '0%'];       // enters from right
+
+  const scaleValues = isLast
+    ? [1, 1, 1]                   // no exit scale
+    : [1, 1, 0.94];               // slight shrink on exit
+
+  const opacityValues = isFirst
+    ? [1, 1, 0]                   // visible from start, fades on exit
+    : isLast
+      ? [0, 1, 1]                 // enters, stays visible
+      : [0, 1, 0];                // normal enter/exit
+
+  const x = useTransform(scrollYProgress, [start, mid, end], xValues);
+  const scale = useTransform(scrollYProgress, [start, mid, end], scaleValues);
+  const opacity = useTransform(scrollYProgress, [start, mid, end], opacityValues);
+
+  return (
+    <motion.div
+      className="absolute inset-0 rounded-2xl overflow-hidden cursor-pointer will-change-transform"
+      style={{ x, scale, opacity }}
+      onClick={() => onViewDetails(project)}
+    >
+      {/* Full-bleed image */}
+      <img
+        src={project.image}
+        alt={project.title}
+        className="w-full h-full object-cover"
+        onError={e => { e.target.src = `https://placehold.co/400x520/16161f/8b5cf6?text=${encodeURIComponent(project.title)}`; }}
+      />
+
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />
+
+      {/* Featured badge */}
+      {project.featured && (
+        <div className="absolute top-4 right-4 z-10 bg-[var(--accent)] text-white py-1 px-2.5 rounded-lg text-[0.65rem] font-bold tracking-wider flex items-center gap-1 border border-white/10 shadow-md">
+          <FiZap size={10} /> Featured
+        </div>
+      )}
+
+      {/* Bottom-left text */}
+      <div className="absolute bottom-6 left-6 right-6 z-10 pointer-events-none">
+        <span className="text-[0.88rem] font-mono font-bold block mb-1 text-[var(--accent)] tracking-widest">
+          {cardNumber}
+        </span>
+        <h3 className="text-2xl md:text-3xl font-extrabold text-white leading-tight mb-2 tracking-tight">
+          {project.title}
+        </h3>
+        <span className="inline-block bg-white/10 border border-white/10 text-white/80 py-0.5 px-2 rounded-md text-[0.62rem] font-semibold tracking-wider uppercase">
+          {project.category}
+        </span>
+      </div>
+
+      {/* Card number top-left */}
+      <div className="absolute bottom-6 right-6 z-10">
+        <span className="text-white/40 font-mono text-[0.72rem]">
+          {cardNumber} / {String(total).padStart(2, '0')}
+        </span>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState(null);
-  
+
   const filtered = activeFilter === 'All' ? projects : projects.filter(p => p.category === activeFilter);
+  const total = filtered.length;
+
+  const sectionRef = useRef(null);
+
+  // Outer section is the scroll track — 100vh per card
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start start', 'end end'],
+  });
+
+  // Active index for dots
+  const [activeIdx, setActiveIdx] = useState(0);
+  useEffect(() => {
+    return scrollYProgress.on('change', v => {
+      const idx = Math.min(Math.floor(v * total), total - 1);
+      setActiveIdx(idx < 0 ? 0 : idx);
+    });
+  }, [scrollYProgress, total]);
 
   return (
-    <section id="projects" className="section-padding" style={{ background: 'var(--bg-secondary)', position: 'relative' }}>
-      <div className="container">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-          <p style={{ textAlign: 'center', color: 'var(--text-accent)', fontWeight: 600, fontSize: '0.82rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+    <section
+      id="projects"
+      ref={sectionRef}
+      className="bg-[var(--bg-primary)] relative"
+      style={{ height: `${total * 100}vh` }}
+    >
+      {/* Sticky full-screen panel */}
+      <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col">
+
+        {/* Header */}
+        <div className="w-full flex flex-col items-center text-center pt-20 pb-6 px-6 shrink-0">
+          <p className=" font-semibold text-[0.68rem] tracking-widest uppercase mb-2">
             What I&apos;ve built
           </p>
           <h2 className="section-title">Featured Projects</h2>
           <div className="section-divider" />
-          <p className="section-subtitle">Hover over a card to see the problem it solves, or view the case study for details.</p>
-        </motion.div>
 
-        {/* Category Filter Buttons */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '0.65rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
-          {categories.map(cat => (
-            <button key={cat} onClick={() => setActiveFilter(cat)}
-              style={{
-                padding: '0.45rem 1.2rem', borderRadius: '8px',
-                border: activeFilter === cat ? '1px solid var(--btn-primary-bg)' : '1px solid var(--border)',
-                background: activeFilter === cat ? 'var(--btn-primary-bg)' : 'transparent',
-                color: activeFilter === cat ? 'var(--btn-primary-text)' : 'var(--text-secondary)',
-                fontWeight: 600, fontSize: '0.8rem',
-                cursor: 'pointer', fontFamily: 'Inter, sans-serif',
-                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-                boxShadow: activeFilter === cat ? '0 4px 12px var(--shadow)' : 'none',
-              }}>
-              {cat}
-            </button>
-          ))}
+          {/* Filter buttons */}
+          {/* <div className="flex justify-center gap-2 flex-wrap mt-5">
+            {categories.map(cat => (
+              <button
+                key={cat}
+                onClick={() => { setActiveFilter(cat); setActiveIdx(0); }}
+                className={`py-1.5 px-4 rounded-lg border font-semibold text-[0.8rem] cursor-pointer transition-all duration-300 font-sans ${
+                  activeFilter === cat
+                    ? 'border-[var(--btn-primary-bg)] bg-[var(--btn-primary-bg)] text-[var(--btn-primary-text)] shadow-md'
+                    : 'border-[var(--border)] bg-transparent text-[var(--text-secondary)]'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div> */}
         </div>
 
-        {/* Project Grid */}
-        <AnimatePresence mode="wait">
-          <motion.div key={activeFilter}
-            initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.3 }}
-            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(310px, 1fr))', gap: '1.75rem' }}>
+        {/* Card stage — fills remaining height, cards absolutely stacked */}
+        <div className="flex-1 flex items-center justify-center px-6 relative overflow-hidden">
+          <div className="relative w-full max-w-[700px] h-full max-h-[800px] max-sm:max-w-[300px] max-sm:max-h-[700px]">
             {filtered.map((project, i) => (
-              <ProjectCard
+              <ScrollCard
                 key={project.id}
                 project={project}
                 index={i}
+                total={total}
+                scrollYProgress={scrollYProgress}
                 onViewDetails={setSelectedProject}
               />
             ))}
-          </motion.div>
-        </AnimatePresence>
+          </div>
+        </div>
 
-        {/* Case Study Detail Modal */}
-        <AnimatePresence>
-          {selectedProject && (
-            <ProjectModal
-              project={selectedProject}
-              onClose={() => setSelectedProject(null)}
+        {/* Pagination dots */}
+        <div className="flex gap-2 justify-center py-6 shrink-0">
+          {filtered.map((_, i) => (
+            <div
+              key={i}
+              className="h-1.5 rounded-full transition-all duration-300"
+              style={{
+                width: i === activeIdx ? 32 : 10,
+                backgroundColor: i === activeIdx
+                  ? 'var(--accent)'
+                  : 'rgba(255,255,255,0.18)',
+              }}
             />
-          )}
-        </AnimatePresence>
+          ))}
+        </div>
       </div>
+
+      {/* Case Study Detail Modal */}
+      <AnimatePresence>
+        {selectedProject && (
+          <ProjectModal
+            project={selectedProject}
+            onClose={() => setSelectedProject(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

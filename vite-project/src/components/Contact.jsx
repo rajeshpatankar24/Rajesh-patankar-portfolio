@@ -35,24 +35,14 @@ export default function Contact() {
     }
   };
 
-  const inputStyle = {
-    width: '100%', padding: '0.82rem 1rem',
-    background: 'var(--bg-primary)',
-    border: '1px solid var(--border)',
-    borderRadius: '8px',
-    color: 'var(--text-primary)',
-    fontSize: '0.9rem',
-    fontFamily: 'Inter, sans-serif',
-    outline: 'none',
-    transition: 'border-color 0.2s ease',
-  };
-  const labelStyle = { display: 'block', fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '0.38rem' };
+  const inputClassName = "w-full py-3.5 px-4 bg-[var(--bg-primary)] border border-[var(--border)] rounded-lg text-[var(--text-primary)] text-[0.9rem] font-sans outline-none transition-colors duration-200 focus:border-[var(--accent)]";
+  const labelClassName = "block text-[0.8rem] font-semibold text-[var(--text-secondary)] mb-1.5";
 
   return (
-    <section id="contact" className="section-padding" style={{ background: 'var(--bg-primary)' }}>
+    <section id="contact" className="section-padding bg-[var(--bg-primary)]">
       <div className="container">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-          <p style={{ textAlign: 'center', color: 'var(--text-accent)', fontWeight: 600, fontSize: '0.82rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+          <p className="text-center  font-semibold text-[0.68rem] tracking-widest uppercase mb-2">
             Let&apos;s connect
           </p>
           <h2 className="section-title">Get In Touch</h2>
@@ -60,48 +50,68 @@ export default function Contact() {
           <p className="section-subtitle">I&apos;m currently open to new opportunities — reach out, I&apos;d love to chat!</p>
         </motion.div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '3rem', maxWidth: '880px', margin: '0 auto', alignItems: 'start' }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mx-auto items-start">
           {/* Form */}
           <motion.div initial={{ opacity: 0, x: -36 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
             <form ref={formRef} onSubmit={handleSubmit} noValidate>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
+              <div className="flex flex-col gap-4.5">
                 <div>
-                  <label style={labelStyle}>Your Name</label>
-                  <input type="text" name="name" value={formData.name} onChange={handleChange}
-                    required placeholder="John Doe" style={inputStyle}
-                    onFocus={e => e.target.style.borderColor = 'var(--accent)'}
-                    onBlur={e => e.target.style.borderColor = 'var(--border)'} />
+                  <label className={labelClassName}>Your Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    placeholder="John Doe"
+                    className={inputClassName}
+                  />
                 </div>
                 <div>
-                  <label style={labelStyle}>Email Address</label>
-                  <input type="email" name="email" value={formData.email} onChange={handleChange}
-                    required placeholder="john@example.com" style={inputStyle}
-                    onFocus={e => e.target.style.borderColor = 'var(--accent)'}
-                    onBlur={e => e.target.style.borderColor = 'var(--border)'} />
+                  <label className={labelClassName}>Email Address</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    placeholder="john@example.com"
+                    className={inputClassName}
+                  />
                 </div>
                 <div>
-                  <label style={labelStyle}>Message</label>
-                  <textarea name="message" value={formData.message} onChange={handleChange}
-                    required rows={5} placeholder="Hi Rajesh, I'd like to talk about..."
-                    style={{ ...inputStyle, resize: 'vertical', minHeight: '120px' }}
-                    onFocus={e => e.target.style.borderColor = 'var(--accent)'}
-                    onBlur={e => e.target.style.borderColor = 'var(--border)'} />
+                  <label className={labelClassName}>Message</label>
+                  <textarea
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    rows={5}
+                    placeholder="Hi Rajesh, I'd like to talk about..."
+                    className={`${inputClassName} resize-vertical min-h-[120px]`}
+                  />
                 </div>
 
-                <button type="submit" className="btn-accent" disabled={status === 'sending'}
-                  style={{ width: '100%', justifyContent: 'center', padding: '0.88rem', fontSize: '0.92rem', opacity: status === 'sending' ? 0.7 : 1 }}>
+                <button
+                  type="submit"
+                  className="btn-accent w-full justify-center py-3.5 text-[0.92rem] inline-flex items-center gap-2"
+                  disabled={status === 'sending'}
+                  style={{ opacity: status === 'sending' ? 0.7 : 1 }}
+                >
                   {status === 'sending' ? 'Sending...' : <><FiSend size={15} /> Send Message</>}
                 </button>
 
                 {status === 'success' && (
                   <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
-                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.7rem 0.9rem', borderRadius: '8px', background: 'var(--bg-card)', border: '1px solid var(--text-status)', color: 'var(--text-status)', fontSize: '0.84rem' }}>
+                    className="flex items-center gap-2 py-3 px-4 rounded-lg bg-[var(--bg-card)] border border-[var(--text-status)] text-[var(--text-status)] text-[0.84rem]"
+                  >
                     <FiCheckCircle size={15} /> Message sent! I&apos;ll reply soon.
                   </motion.div>
                 )}
                 {status === 'error' && (
                   <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
-                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.7rem 0.9rem', borderRadius: '8px', background: 'var(--bg-card)', border: '1px solid var(--text-error)', color: 'var(--text-error)', fontSize: '0.84rem' }}>
+                    className="flex items-center gap-2 py-3 px-4 rounded-lg bg-[var(--bg-card)] border border-[var(--text-error)] text-[var(--text-error)] text-[0.84rem]"
+                  >
                     <FiAlertCircle size={15} /> Add your EmailJS credentials to enable this form.
                   </motion.div>
                 )}
@@ -111,10 +121,11 @@ export default function Contact() {
 
           {/* Socials */}
           <motion.div initial={{ opacity: 0, x: 36 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.1 }}
-            style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <div style={{ marginBottom: '0.5rem' }}>
-              <h3 style={{ fontSize: '1.15rem', fontWeight: 700, marginBottom: '0.45rem', color: 'var(--text-primary)' }}>Let&apos;s build something great</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.7 }}>
+            className="flex flex-col gap-4"
+          >
+            <div className="mb-2">
+              <h3 className="text-[1.15rem] font-bold mb-2 text-[var(--text-primary)]">Let&apos;s build something great</h3>
+              <p className="text-[var(--text-secondary)] text-[0.875rem] leading-relaxed">
                 Whether you&apos;re looking for a full-stack developer, want to collaborate on a project, or just want to say hi — my inbox is always open.
               </p>
             </div>
@@ -125,28 +136,17 @@ export default function Contact() {
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, x: 18 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
                 transition={{ delay: 0.2 + i * 0.08 }}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: '0.9rem',
-                  padding: '0.9rem 1.1rem', borderRadius: '10px',
-                  background: 'var(--bg-card)', border: '1px solid var(--border)',
-                  textDecoration: 'none', transition: 'all 0.2s ease',
-                }}
-                onHoverStart={e => { }}
+                className="flex items-center gap-3.5 py-3.5 px-4.5 rounded-lg bg-[var(--bg-card)] border border-[var(--border)] no-underline transition-all duration-200"
                 whileHover={{ x: 4, borderColor: 'var(--accent)' }}
               >
-                <div style={{
-                  width: '38px', height: '38px', borderRadius: '8px',
-                  background: 'var(--bg-secondary)', border: '1px solid var(--border)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: 'var(--text-accent)', flexShrink: 0,
-                }}>
+                <div className="w-[38px] h-[38px] rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)] flex items-center justify-center text-[var(--text-accent)] shrink-0">
                   {s.icon}
                 </div>
-                <div>
-                  <p style={{ fontWeight: 600, fontSize: '0.85rem', color: 'var(--text-primary)' }}>{s.label}</p>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{s.value}</p>
+                <div className="flex flex-col">
+                  <p className="font-semibold text-[0.85rem] text-[var(--text-primary)]">{s.label}</p>
+                  <p className="text-[0.75rem] text-[var(--text-muted)]">{s.value}</p>
                 </div>
-                <div style={{ marginLeft: 'auto', color: 'var(--text-muted)', fontSize: '0.9rem' }}>→</div>
+                <div className="ml-auto text-[var(--text-muted)] text-[0.9rem]">→</div>
               </motion.a>
             ))}
           </motion.div>

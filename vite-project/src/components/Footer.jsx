@@ -1,4 +1,4 @@
-import { FiHeart, FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
+import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi';
 import { personalInfo } from '../data/portfolioData';
 import Logo from './Logo';
 
@@ -11,64 +11,21 @@ export default function Footer() {
     { icon: <FiMail size={18} />, href: `mailto:${personalInfo.email}`, label: 'Email' },
   ];
 
-  const navLinks = [
-    { label: 'About', to: 'about' },
-    { label: 'Skills', to: 'skills' },
-    { label: 'Projects', to: 'projects' },
-    { label: 'Experience', to: 'experience' },
-    { label: 'Contact', to: 'contact' },
-  ];
-
   return (
-    <footer style={{
-      background: 'var(--bg-secondary)',
-      borderTop: '1px solid var(--border)',
-      padding: '2.5rem 0',
-    }}>
+    <footer className="bg-[var(--bg-secondary)] border-t border-[var(--border)] py-10">
       <div className="container">
         {/* Top row */}
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: '1.5rem',
-          marginBottom: '1.5rem',
-        }}>
+        <div className="flex flex-wrap justify-between items-center gap-6 mb-6">
           {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
+          <div className="flex items-center gap-2 text-[var(--text-secondary)]">
             <Logo size={28} />
-            <span style={{ fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase', opacity: 0.8 }}>
+            <span className="text-[0.85rem] font-semibold tracking-wider uppercase opacity-80">
               Portfolio
             </span>
           </div>
 
-          {/* Nav links */}
-          {/* <nav style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
-            {navLinks.map(link => (
-              <button
-                key={link.to}
-                onClick={() => document.getElementById(link.to)?.scrollIntoView({ behavior: 'smooth' })}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--text-muted)',
-                  fontSize: '0.82rem',
-                  cursor: 'pointer',
-                  fontFamily: 'Inter, sans-serif',
-                  transition: 'color 0.2s',
-                  padding: 0,
-                }}
-                onMouseEnter={e => e.target.style.color = 'var(--text-primary)'}
-                onMouseLeave={e => e.target.style.color = 'var(--text-muted)'}
-              >
-                {link.label}
-              </button>
-            ))}
-          </nav> */}
-
           {/* Social icons */}
-          <div style={{ display: 'flex', gap: '0.75rem' }}>
+          <div className="flex gap-3">
             {links.map(l => (
               <a
                 key={l.label}
@@ -76,29 +33,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={l.label}
-                style={{
-                  width: '38px',
-                  height: '38px',
-                  borderRadius: '10px',
-                  background: 'var(--bg-card)',
-                  border: '1px solid var(--border)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'var(--text-muted)',
-                  textDecoration: 'none',
-                  transition: 'all 0.2s ease',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = 'var(--text-accent)';
-                  e.currentTarget.style.color = 'var(--text-accent)';
-                  e.currentTarget.style.background = 'var(--bg-secondary)';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = 'var(--border)';
-                  e.currentTarget.style.color = 'var(--text-muted)';
-                  e.currentTarget.style.background = 'var(--bg-card)';
-                }}
+                className="w-[38px] h-[38px] rounded-[10px] bg-[var(--bg-card)] border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] no-underline transition-all duration-200 hover:border-[var(--text-accent)] hover:text-[var(--text-accent)] hover:bg-[var(--bg-secondary)]"
               >
                 {l.icon}
               </a>
@@ -107,22 +42,13 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div style={{ height: '1px', background: 'var(--border)', marginBottom: '1.25rem' }} />
+        <div className="h-[1px] bg-[var(--border)] mb-5" />
 
         {/* Bottom row */}
-        <div style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: '0.75rem',
-        }}>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+        <div className="flex flex-wrap justify-between items-center gap-3">
+          <p className="text-[var(--text-muted)] text-[0.8rem]">
             © {year} Rajesh Patankar. All rights reserved.
           </p>
-          {/* <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-            Made with <FiHeart size={13} color="var(--text-accent)" fill="var(--text-accent)" /> in React + Vite
-          </p> */}
         </div>
       </div>
     </footer>

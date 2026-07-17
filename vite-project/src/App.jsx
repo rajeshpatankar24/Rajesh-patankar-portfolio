@@ -4,13 +4,9 @@ import Lenis from 'lenis';
 import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import BentoHighlights from './components/BentoHighlights';
-import StoryJourney from './components/StoryJourney';
 import Projects from './components/Projects';
 import Experience from './components/Experience';
-import GitHubStats from './components/GitHubStats';
 import Education from './components/Education';
-import InteractiveTerminalCard from './components/InteractiveTerminalCard';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
@@ -39,13 +35,13 @@ export default function App() {
   return (
     <ThemeProvider>
       <Navbar />
-      <main style={{ background: '#0a0a0f' }}>
+      <main className="bg-[var(--bg-primary)]">
         <Hero />
         {/* <BentoHighlights /> */}
         {/* <StoryJourney /> */}
         <Projects />
         <Experience />
-        <GitHubStats />
+        {/* <GitHubStats /> */}
         <Education />
         {/* <InteractiveTerminalCard /> */}
         <Contact />

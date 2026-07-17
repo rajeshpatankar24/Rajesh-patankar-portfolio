@@ -1,64 +1,65 @@
-@import "@fontsource/inter/300.css";
-@import "@fontsource/inter/400.css";
-@import "@fontsource/inter/500.css";
-@import "@fontsource/inter/600.css";
-@import "@fontsource/inter/700.css";
-@import "@fontsource/inter/800.css";
-
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
 @import "tailwindcss";
+
+@theme {
+  --font-sans: 'IBM Plex Mono', monospace;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
 
 :root,
 [data-theme="dark"] {
-  --accent: #ffffff;
-  --accent-hover: #e4e4e7;
+  --accent: #cbd5e1;
+  --accent-hover: #94a3b8;
   --bg-primary: #0a0a0f;
   --bg-secondary: #111118;
   --bg-card: #16161f;
   --bg-card-hover: #1c1c28;
   --text-primary: #ffffff;
-  --text-secondary: #ffffff;
-  --text-muted: #ffffff;
-  --text-accent: #ffffff;
-  --text-status: #ffffff;
-  --text-error: #ffffff;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --text-accent: #e2e8f0;
+  --text-status: #34d399;
+  --text-error: #f87171;
   --border: #27272a;
   --border-light: #3f3f46;
   --shadow: rgba(0, 0, 0, 0.5);
-  --glass-bg: rgba(22, 22, 31, 0.9);
-  --btn-primary-bg: #ffffff;
-  --btn-primary-text: #0a0a0f;
-  --btn-outline-border: #ffffff;
-  --btn-outline-text: #ffffff;
+  --glass-bg: rgba(10, 10, 15, 0.85);
+  --btn-primary-bg: #cbd5e1;
+  --btn-primary-text: #0f172a;
+  --btn-outline-border: #cbd5e1;
+  --btn-outline-text: #cbd5e1;
+  --logo-filter: invert(1);
 }
 
 /* ── Light theme ── */
 [data-theme="light"] {
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
-  --bg-primary: #ffffff;
-  --bg-secondary: #f4f4f5;
-  --bg-card: #ffffff;
-  --bg-card-hover: #f4f4f5;
-  --text-primary: #000000;
-  --text-secondary: #3f3f46;
-  --text-muted: #71717a;
+  --accent: #475569;
+  --accent-hover: #334155;
+  --bg-primary: #edeae8;
+  --bg-secondary: #e7e2dc;
+  --bg-card: #ede7e2;
+  --bg-card-hover: #e0d9ce;
+  --text-primary: #1c1917;
+  --text-secondary: #44403c;
+  --text-muted: #78716c;
   --text-accent: var(--accent);
   --text-status: #16a34a;
   --text-error: #dc2626;
-  --border: #e4e4e7;
-  --border-light: #d4d4d8;
-  --shadow: rgba(0, 0, 0, 0.08);
-  --glass-bg: rgba(255, 255, 255, 0.95);
-  --btn-primary-bg: #2563eb;
+  --border: #dfc9ae;
+  --border-light: #d0b89a;
+  --shadow: rgba(40, 20, 0, 0.08);
+  --glass-bg: rgba(237, 234, 232, 0.85);
+  --btn-primary-bg: #475569;
   --btn-primary-text: #ffffff;
-  --btn-outline-border: #2563eb;
-  --btn-outline-text: #2563eb;
+  --btn-outline-border: #475569;
+  --btn-outline-text: #475569;
+  --logo-filter: none;
 }
 
 /* Smooth theme transitions */
 *, *::before, *::after {
   margin: 0;
-  padding: 0;
+  /* padding: 0; */
   box-sizing: border-box;
   transition:
     background-color 0.3s ease,
@@ -73,7 +74,7 @@ html {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'IBM Plex Mono', monospace;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.6;

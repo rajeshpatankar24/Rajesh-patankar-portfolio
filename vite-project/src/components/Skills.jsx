@@ -11,33 +11,18 @@ function SkillCard({ skill, index }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay: index * 0.06 }}
-      style={{
-        padding: '1rem', borderRadius: '10px',
-        background: 'var(--bg-card)', border: '1px solid var(--border)',
-        transition: 'all 0.2s ease', cursor: 'default',
-      }}
-      whileHover={{ y: -2, borderColor: 'var(--accent)' }}
+      className="p-4 rounded-lg bg-[var(--bg-card)] border border-[var(--border)] transition-all duration-200 cursor-default hover:border-[var(--accent)] hover:-translate-y-0.5"
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem' }}>
-        <div style={{
-          width: '34px', height: '34px', borderRadius: '7px',
-          background: 'var(--bg-secondary)', border: '1px solid var(--border)',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-        }}>
+      <div className="flex items-center gap-3 mb-3">
+        <div className="w-[34px] h-[34px] rounded-[7px] bg-[var(--bg-secondary)] border border-[var(--border)] flex items-center justify-center shrink-0">
           <img src={skill.icon} alt={skill.name} width={20} height={20}
-            style={{ objectFit: 'contain' }}
+            className="object-contain"
             onError={(e) => { e.target.style.display = 'none'; }} />
         </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontWeight: 600, fontSize: '0.88rem', color: 'var(--text-primary)' }}>{skill.name}</span>
-            <span style={{
-              fontSize: '0.65rem', fontWeight: 600,
-              padding: '0.15rem 0.45rem', borderRadius: '5px',
-              background: 'var(--bg-secondary)',
-              color: 'var(--text-muted)',
-              border: '1px solid var(--border)',
-            }}>
+        <div className="flex-1 min-w-0">
+          <div className="flex justify-between items-center">
+            <span className="font-semibold text-[0.88rem] text-[var(--text-primary)]">{skill.name}</span>
+            <span className="text-[0.65rem] font-bold py-0.5 px-2 rounded-[5px] bg-[var(--bg-secondary)] text-[var(--text-muted)] border border-[var(--border)]">
               {skill.label}
             </span>
           </div>
@@ -52,7 +37,7 @@ function SkillCard({ skill, index }) {
           transition={{ duration: 0.9, delay: index * 0.06 + 0.25, ease: [0.22, 1, 0.36, 1] }}
         />
       </div>
-      <p style={{ fontSize: '0.68rem', color: 'var(--text-muted)', textAlign: 'right', marginTop: '0.3rem' }}>{skill.level}%</p>
+      <p className="text-[0.68rem] text-[var(--text-muted)] text-right mt-1">{skill.level}%</p>
     </motion.div>
   );
 }
@@ -61,10 +46,10 @@ export default function Skills() {
   const [activeTab, setActiveTab] = useState(categories[0]);
 
   return (
-    <section id="skills" className="section-padding" style={{ background: 'var(--bg-primary)' }}>
+    <section id="skills" className="section-padding bg-[var(--bg-primary)]">
       <div className="container">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-          <p style={{ textAlign: 'center', color: 'var(--text-accent)', fontWeight: 600, fontSize: '0.82rem', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '0.5rem' }}>
+          <p className="text-center text-[var(--text-accent)] font-semibold text-[0.82rem] tracking-widest uppercase mb-2">
             What I work with
           </p>
           <h2 className="section-title">Tech Stack</h2>
@@ -73,18 +58,15 @@ export default function Skills() {
         </motion.div>
 
         {/* Tabs */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '0.5rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
+        <div className="flex justify-center gap-2 flex-wrap mb-10">
           {categories.map(cat => (
             <button key={cat} onClick={() => setActiveTab(cat)}
-              style={{
-                padding: '0.45rem 1.1rem', borderRadius: '7px',
-                border: activeTab === cat ? '1px solid var(--btn-primary-bg)' : '1px solid var(--border)',
-                background: activeTab === cat ? 'var(--btn-primary-bg)' : 'transparent',
-                color: activeTab === cat ? 'var(--btn-primary-text)' : 'var(--text-secondary)',
-                fontWeight: 600, fontSize: '0.83rem',
-                cursor: 'pointer', fontFamily: 'Inter, sans-serif',
-                transition: 'all 0.2s ease',
-              }}>
+              className={`py-2 px-4.5 rounded-lg border font-semibold text-[0.83rem] cursor-pointer font-sans transition-all duration-200 ${
+                activeTab === cat
+                  ? 'border-[var(--btn-primary-bg)] bg-[var(--btn-primary-bg)] text-[var(--btn-primary-text)]'
+                  : 'border-[var(--border)] bg-transparent text-[var(--text-secondary)]'
+              }`}
+            >
               {cat}
             </button>
           ))}
@@ -95,7 +77,8 @@ export default function Skills() {
           <motion.div key={activeTab}
             initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.25 }}
-            style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(230px, 1fr))', gap: '0.9rem' }}>
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5"
+          >
             {skills[activeTab].map((skill, i) => (
               <SkillCard key={skill.name} skill={skill} index={i} />
             ))}
@@ -104,24 +87,18 @@ export default function Skills() {
 
         {/* All icons strip */}
         <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 }}
-          style={{ marginTop: '3rem', textAlign: 'center' }}>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginBottom: '1.1rem', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+          className="mt-12 text-center"
+        >
+          <p className="text-[var(--text-muted)] text-[0.75rem] mb-4.5 tracking-wider uppercase">
             All technologies
           </p>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', justifyContent: 'center' }}>
+          <div className="flex flex-wrap gap-3 justify-center">
             {Object.values(skills).flat().map((skill, i) => (
               <div key={`${skill.name}-${i}`} title={skill.name}
-                style={{
-                  width: '40px', height: '40px', borderRadius: '8px',
-                  background: 'var(--bg-card)', border: '1px solid var(--border)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  transition: 'all 0.2s ease', cursor: 'default',
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)'; e.currentTarget.style.transform = 'translateY(-3px)'; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.transform = 'translateY(0)'; }}
+                className="w-10 h-10 rounded-lg bg-[var(--bg-card)] border border-[var(--border)] flex items-center justify-center transition-all duration-200 cursor-default hover:border-[var(--accent)] hover:-translate-y-0.75"
               >
                 <img src={skill.icon} alt={skill.name} width={22} height={22}
-                  style={{ objectFit: 'contain' }}
+                  className="object-contain"
                   onError={e => { e.target.style.display = 'none'; }} />
               </div>
             ))}
