@@ -4,9 +4,6 @@ import emailjs from '@emailjs/browser';
 import { personalInfo } from '../data/portfolioData';
 import { FiMail, FiLinkedin, FiGithub, FiSend, FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
 
-const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
-const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
-const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
 
 const socials = [
   { icon: <FiMail size={18} />, label: 'Email', value: personalInfo.email, href: `mailto:${personalInfo.email}` },
@@ -23,14 +20,25 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const lastSentTime = localStorage.getItem('lastEmailSentTime');
+    const COOLDOWN_PERIOD = 60 * 1000; // 1 minute cooldown
+    if (lastSentTime && Date.now() - parseInt(lastSentTime, 10) < COOLDOWN_PERIOD) {
+      setStatus('ratelimited');
+      setTimeout(() => setStatus('idle'), 4000);
+      return;
+    }
+
     setStatus('sending');
     try {
-      await emailjs.sendForm(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, formRef.current, { publicKey: EMAILJS_PUBLIC_KEY });
+      await emailjs.sendForm(process.env.REACT_APP_EMAILJS_SERVICE_ID, process.env.REACT_APP_EMAILJS_TEMPLATE_ID, formRef.current, { publicKey: process.env.REACT_APP_EMAILJS_PUBLIC_KEY });
+      localStorage.setItem('lastEmailSentTime', Date.now().toString());
       setStatus('success');
       setFormData({ name: '', email: '', message: '' });
       setTimeout(() => setStatus('idle'), 5000);
     } catch {
       setStatus('error');
+      setFormData({ name: '', email: '', message: '' });
       setTimeout(() => setStatus('idle'), 4000);
     }
   };
@@ -113,6 +121,13 @@ export default function Contact() {
                     className="flex items-center gap-2 py-3 px-4 rounded-lg bg-[var(--bg-card)] border border-[var(--text-error)] text-[var(--text-error)] text-[0.84rem]"
                   >
                     <FiAlertCircle size={15} /> Add your EmailJS credentials to enable this form.
+                  </motion.div>
+                )}
+                {status === 'ratelimited' && (
+                  <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }}
+                    className="flex items-center gap-2 py-3 px-4 rounded-lg bg-[var(--bg-card)] border border-[var(--text-error)] text-[var(--text-error)] text-[0.84rem]"
+                  >
+                    <FiAlertCircle size={15} /> Please wait a minute before sending another message.
                   </motion.div>
                 )}
               </div>

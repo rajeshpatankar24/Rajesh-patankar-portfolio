@@ -6,8 +6,7 @@
   --font-mono: 'IBM Plex Mono', monospace;
 }
 
-:root,
-[data-theme="dark"] {
+:root {
   --accent: #cbd5e1;
   --accent-hover: #94a3b8;
   --bg-primary: #0a0a0f;
@@ -29,6 +28,11 @@
   --btn-outline-border: #cbd5e1;
   --btn-outline-text: #cbd5e1;
   --logo-filter: invert(1);
+  --hero-bg-text: rgb(255, 255, 255);
+}
+
+[data-theme="dark"] {
+  --hero-bg-text: rgba(255, 255, 255, 0.16);
 }
 
 /* ── Light theme ── */
@@ -54,6 +58,7 @@
   --btn-outline-border: #475569;
   --btn-outline-text: #475569;
   --logo-filter: none;
+  --hero-bg-text: rgba(223, 201, 174, 0.88);
 }
 
 /* Smooth theme transitions */

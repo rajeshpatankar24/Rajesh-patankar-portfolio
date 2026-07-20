@@ -9,6 +9,7 @@ import Experience from './components/Experience';
 import Education from './components/Education';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import CurtainHero from './components/CurtainHero';
 
 export default function App() {
   useEffect(() => {
@@ -36,7 +37,8 @@ export default function App() {
     <ThemeProvider>
       <Navbar />
       <main className="bg-[var(--bg-primary)]">
-        <Hero />
+        {/* <Hero /> */}
+        <CurtainHero />
         {/* <BentoHighlights /> */}
         {/* <StoryJourney /> */}
         <Projects />
